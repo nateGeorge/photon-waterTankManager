@@ -35,17 +35,17 @@ void loop() {
     if (pumpOn) {
         if (autoMode) {
             if (millis() - relayStartTime > pumpTimeout) {
-                relayOff("bullshit");
+                relayOff("bs");
             }
         } else {
             if (millis() - relayStartTime > pumpOnTime) {
-                relayOff("bullshit");
+                relayOff("bs");
             }
         }
     }
 }
 
-int relayOn(String bullshit)
+int relayOn(String bs)
 {
 	digitalWrite(relayPin, HIGH);
 	pumpOn = true;
@@ -56,7 +56,7 @@ int relayOn(String bullshit)
 	return 1;
 }
 
-int relayOff(String bullshit)
+int relayOff(String bs)
 {
 	digitalWrite(relayPin, LOW);
 	pumpOn = false;
@@ -109,7 +109,7 @@ void eventHandler(String event, String data)
           Particle.publish("jsf/waterSystem/waterTankPump/autoModeConfirm", "true");
       } else {
           Particle.publish("jsf/waterSystem/waterTankPump/autoModeConfirm", "false");
-          relayOff("bullshit");
+          relayOff("bs");
       }
       valSet = thingspeak.recordValue(4, String(boolToNum(autoMode)));
   }
@@ -131,8 +131,8 @@ void sendTS()
 
 void autoPumpControl() {
     if (waterLow == true) {
-        success = relayOn("bullshit");
+        success = relayOn("bs");
     } else if (waterHigh == true) {
-        success = relayOff("bullshit");
+        success = relayOff("bs");
     }
 }
